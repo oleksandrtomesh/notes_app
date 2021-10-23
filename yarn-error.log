@@ -1,0 +1,62 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start --prefix client
+
+PATH: 
+  C:\Users\oleks\AppData\Local\Temp\yarn--1633592945902-0.2441630111690145;C:\Programing\React\notes__app\node_modules\.bin;C:\Users\oleks\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\oleks\AppData\Roaming\npm\bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Programing\React\notes__app\node_modules\.bin;C:\Programing\React\node_modules\.bin;C:\Programing\node_modules\.bin;C:\node_modules\.bin;C:\Users\oleks\AppData\Roaming\npm\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\oleks\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\oleks\atom\bin;C:\Users\oleks\AppData\Roaming\npm;C:\Users\oleks\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\oleks\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.15.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  TypeError: Cannot create property 'module' on string '{"module":"C:\\Users\\oleks\\.npm-init.js"}'
+      at set (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:53902:28)
+      at set (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:53916:14)
+      at set (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:53896:16)
+      at Function.objectPath.set (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:53949:14)
+      at NpmRegistry.mergeEnv (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:95657:18)
+      at NpmRegistry.<anonymous> (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:31899:12)
+      at Generator.next (<anonymous>)
+      at step (C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\oleks\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:328:14
+      at new Promise (<anonymous>)
+
+npm manifest: 
+  {
+    "name": "notes__app",
+    "version": "1.0.0",
+    "description": "notes app",
+    "main": "server.js",
+    "scripts": {
+      "server": "nodemon server.js",
+      "client": "yarn start --prefix client",
+      "dev": "concurrently \"nmp run server\" \"yarn run client\""
+    },
+    "keywords": [
+      "nodejs",
+      "react",
+      "mern"
+    ],
+    "author": "Oleksandr Tomesh <oleksandrtomes@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+      "config": "^3.3.6",
+      "express": "^4.17.1",
+      "mongoose": "^6.0.8"
+    },
+    "devDependencies": {
+      "concurrently": "^6.3.0",
+      "nodemon": "^2.0.13"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

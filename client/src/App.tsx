@@ -1,25 +1,20 @@
-import { Route, Switch } from "react-router";
-import { AuthPage } from "./auth-page/auth";
-import { Notes } from "./notes-page/Notes";
-import { RegPage } from './auth-page/registration';
+import { useAuth } from "./hooks/auth.hook";
+import { useRoutes } from "./hooks/routes.hook";
+import { AuthContext } from "./context/authContext";
 
 
 
 
 const App: React.FC = () => {
+  const {login, logout, token, userId, email} = useAuth()
+  const isAuth = !!token
+  const routes = useRoutes(isAuth)
+  
+  
   return(
-    <Switch>
-      <Route path='/notes'>
-        <Notes/>
-      </Route>
-      <Route path='/registration'>
-        <RegPage/>
-      </Route>
-      <Route path='/'>
-        <AuthPage/>
-      </Route>
-    </Switch>
-    
+    <AuthContext.Provider value={{login, logout, email, token, userId, isAuth}}>
+      {routes}
+    </AuthContext.Provider>
   )
 }
 

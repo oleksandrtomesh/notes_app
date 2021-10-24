@@ -70,7 +70,7 @@ router.post(
         }
 
         const {email, password} = req.body
-
+        
         //check that is user with provided email in DB
         const user = await User.findOne({email})
         if(!user){
@@ -78,22 +78,24 @@ router.post(
         }
         //compare provided password with hash password in DB
         const isMatch = await bcrypt.compare(password, user.password)
+        
         if(!isMatch){
             return res.status(400).json({message: 'Wrong data until login'})
         }
 
         //create token
-        const token = jwt.token(
+        const token = jwt.sign(
             {userId: user.id},
             config.get('jwtSecret'),
             {expiresIn: '1h'}
         )
+        
 
-        res.json({token, userId: user.id})
+        res.json({token, userId: user.id, email: user.email})
 
 
     } catch (e) {
-        res.status(500).json({message: 'Something went wrong. Try againn'})
+        res.status(500).json({message: 'Something went wrong. Try again'})
     }
 })
 

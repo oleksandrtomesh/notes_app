@@ -4,6 +4,7 @@ import { SidebarComponent } from './sidebar/sidebar';
 import { EditorComponent} from './editor/editor';
 import { Container } from '@material-ui/core';
 import { useNoteActions } from '../hooks/noteAction.hook';
+import { Header } from '../components/Header';
 
 export const Notes: React.FC = () => {
     const { notes, selectedNoteIndex, selectedNote, selectNote, updateNote, addNote, getNotes, deleteNote } = useNoteActions()
@@ -14,6 +15,7 @@ export const Notes: React.FC = () => {
 
     return (
         <Container maxWidth="lg">
+            <Header/>
             <SidebarComponent
                 notes={notes}
                 selectedNoteIndex={selectedNoteIndex}

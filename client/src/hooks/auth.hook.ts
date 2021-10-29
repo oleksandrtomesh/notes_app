@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
+import { storageName } from '../constants/constants';
 
-const storageName = 'usedData'
+
 
 export const useAuth = () => {
     const [token, setToken] = useState<string | null>(null)
@@ -12,7 +13,9 @@ export const useAuth = () => {
         setToken(jwtToken)
         setUserId(id)
         setEmail(email)
-        localStorage.setItem(storageName, JSON.stringify({token: jwtToken, id, email}))
+        let expirationDate = new Date();
+        expirationDate.setHours(expirationDate.getHours() + 1)
+        localStorage.setItem(storageName, JSON.stringify({token: jwtToken, id, email, expirationDate }))
     }, [])
     //nullable data if user logout
     const logout = useCallback(() => {

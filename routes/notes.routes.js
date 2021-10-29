@@ -2,6 +2,7 @@
 const express = require('express')
 const Note = require('../models/Note')
 const getCurrentDate = require('../utils/getDate')
+const authMiddleware = require('../middlewares/auth.middleware')
 
 //create router for notes
 const router = express.Router()
@@ -9,28 +10,32 @@ const router = express.Router()
 // /api/notes
 
 //get notes
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try{
-        const notes = await Note.find()
+        const notes = await Note.find({owner: req.user.userId})
         if(!notes) throw new Error('No any notes')
         res.status(200).json({success: true, notes})
     } catch(e){
-        console.log(e);
         res.status(500).json({message: 'Something went wrong, try again'})
     }
 })
 
 // add note
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     try{
         const timeStamp = getCurrentDate()
         const {title, body} = req.body
-        const id = Date.now()
-        const note = new Note({title, body, id, timeStamp})
+        const note = new Note({title, body, timeStamp, owner: req.user.userId})
         await note.save()
-        res.status(201).json({message: 'Note added', note})
+        const notes = await Note.find({owner: req.user.userId})
+        res.status(201).json({message: 'Note added', newNotes: notes, addedNoteId: note._id})
+
     } catch(err){
-        res.status(500).json({message: 'Server error in post method'})
+        if(err){
+            res.status(500).json({message: err})
+        }else {
+            res.status(500).json({message: 'Server error in post method'})
+        }
     }
 })
 

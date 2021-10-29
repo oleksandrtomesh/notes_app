@@ -1,9 +1,11 @@
+import { AuthContext } from './../context/authContext';
 import { handleResData } from './../helpers';
 import { Note } from '../notes-page/sidebar-item/sidebarItem';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext, useEffect } from 'react';
 import { useHttp } from './http.hook';
 
 export const useNoteActions = () => {
+    const auth = useContext(AuthContext)
     const [notes, setNotes] = useState<Array<Note> | null>(null)
     const [selectedNote, setSelectedNote] = useState<Note | null>(null)
     const [selectedNoteIndex, setSelectedNoteIndex] = useState<number>(100)
@@ -15,8 +17,9 @@ export const useNoteActions = () => {
     }, [])
 
     const getNotes = useCallback( async () => {
+        
         //get notes from db
-        const data = await request('/api/notes', 'GET')
+        const data = await request('/api/notes', 'GET', null, {Authorization: `Bearer ${auth.token}`})
         if (data.notes) {
             //parse notes
             const newNotes = handleResData(data.notes)
@@ -25,25 +28,26 @@ export const useNoteActions = () => {
                 selectNote(newNotes[0], 0)
             }
         }
-    },[request, selectNote])
-
-    
+    },[request, selectNote, auth])
 
     const addNote = useCallback( async(title: string) => {
         const body = JSON.stringify({title, body: ""})
-        await request('api/notes', 'POST', body, {'Content-Type': 'application/json'})
-        const data = await request('/api/notes', 'GET')
-        const newNotes = handleResData(data.notes)
-        setNotes(newNotes)
-        if(newNotes){
-        //select the last added note
-            selectNote(newNotes[newNotes.length -1], newNotes.length - 1)
+        const postData = await request('api/notes', 'POST', body, {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.token}`
+        })
+        
+        if (postData.newNotes) {
+            //parse notes
+            const newNotes = handleResData(postData.newNotes)
+            setNotes(newNotes)
+            if (newNotes) {
+                selectNote(newNotes[newNotes.length -1], newNotes.length -1)
+            }
         }
-    }, [request, selectNote])
+    }, [request, selectNote, auth])
 
     const updateNote = useCallback(async (id: string, title: string, text: string) => {
-        
-        
         const reqBody = JSON.stringify({ id, title, body: text })
         const data = await request('api/notes', 'PUT', reqBody, { 'Content-Type': 'application/json' })
         const newNote = handleResData(data.notes)
@@ -80,13 +84,13 @@ export const useNoteActions = () => {
                 newNoteIndex -= 1
             }
             await request('/api/notes', 'DELETE', body, {'Content-Type': 'application/json'})
-            const data = await request('/api/notes', 'GET')
+            const data = await request('/api/notes', 'GET',  null, {Authorization: `Bearer ${auth.token}`})
             const newNotes = handleResData(data.notes)
             //set new notes adn new NoteIndex
             setNotes(newNotes)
             setSelectedNoteIndex(newNoteIndex)
             
-    }}, [request, notes, selectedNoteIndex])
+    }}, [request, notes, selectedNoteIndex, auth])
 
     return {notes, selectedNote, selectedNoteIndex, selectNote, updateNote, addNote, getNotes, deleteNote}
 }

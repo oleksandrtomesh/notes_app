@@ -4,9 +4,14 @@ export const useHttp = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    const request = useCallback(async(url, method = 'GET', body = null, headers = {}) => {
+    const request = useCallback(async(url, method = 'GET', body = null, token=null) => {
         setLoading(true)
         try{
+            let headers = {}
+            if (token !== null) headers.Authorization = `Bearer ${token}`
+            if (method !== 'GET'){
+                headers['Content-Type'] = 'application/json'
+            }
             const response = await fetch(url, {method, body, headers})
             const data = await response.json()
 

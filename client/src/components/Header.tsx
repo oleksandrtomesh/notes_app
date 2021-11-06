@@ -1,6 +1,6 @@
 import { AppBar, Button, makeStyles, Theme, Toolbar, Typography, createStyles} from "@material-ui/core"
 import { useContext } from "react"
-import { AuthContext } from "../context/authContext"
+import { AppContext } from "../context/context"
 
 const useStyles = makeStyles((theme: Theme) => 
     createStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Header = () => {
     const classes = useStyles()
-    const {email, logout} = useContext(AuthContext)
+    const {email, logout} = useContext(AppContext)
 
     return(
         <header className={classes.header}>

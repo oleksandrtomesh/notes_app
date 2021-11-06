@@ -6,16 +6,23 @@ export function removeHTMLTags(str: string): string {
 }
 
 
-export const handleResData = (notes: Array<ServerNote> ): Array<Note>  => {
+export const handleResData = (notes: Array<ServerNote> | ServerNote ): Array<Note> | Note  => {
 
-        return notes.map((note:ServerNote): Note => {
-            if(note){
-                const {_id, title, body, timeStamp} = note
-                const newNote = {id: _id, title, body, timeStamp}
-                return newNote
-            }
-            return note
-        })
+        if (Array.isArray(notes)){
+            return notes.map((note:ServerNote): Note => {
+                if(note){
+                    const {_id, title, body, timeStamp} = note
+                    const newNote = {id: _id, title, body, timeStamp}
+                    return newNote
+                }
+                return note
+            })
+        } else {
+            const {_id, title, body, timeStamp} = notes
+            const newNote = {id: _id, title, body, timeStamp}
+            return newNote
+        }
+        
     
 }
 
@@ -26,7 +33,7 @@ export const handleResData = (notes: Array<ServerNote> ): Array<Note>  => {
 type ServerNote = {
     _id: string
     title: string
-    id: number
+    owner: string
     body: string
     timeStamp: string
 }

@@ -2,7 +2,7 @@ import { createContext, Dispatch } from "react";
 import { Action, State } from "../reducer/reducer";
 
 const noob = () => {}
-export const AuthContext = createContext<AuthContextType>({
+export const AppContext = createContext<AppContextType>({
     token: null,
     email: null,
     userId: null,
@@ -14,7 +14,7 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 //types
-interface AuthContextType  {
+interface AppContextType  {
     token: null | string
     userId: null | string
     email: null | string

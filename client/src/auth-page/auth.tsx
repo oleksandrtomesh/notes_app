@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner';
 import { NavLink } from 'react-router-dom'
 import { useHttp } from '../hooks/http.hook'
 import {useContext} from 'react'
-import {AuthContext} from '../context/authContext'
+import {AppContext} from '../context/context'
 import * as Yup from 'yup'
 
 const useStyles = makeStyles(theme => ({
@@ -48,12 +48,12 @@ const initialValues: InitialValues = {
 export const AuthPage: React.FC = () => {
     const classes = useStyles();
     const {request, loading, error} = useHttp()
-    const auth = useContext(AuthContext)
+    const appContext = useContext(AppContext)
 
     const handleSubmit = async (values: InitialValues) => {
         const body = JSON.stringify({email: values.email, password: values.password})
         const data = await request('/api/auth/login', 'POST', body, {'Content-Type': 'application/json'})
-        auth.login(data.token, data.userId, data.email)
+        appContext.login(data.token, data.userId, data.email)
         
     }
 

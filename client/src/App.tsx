@@ -1,6 +1,6 @@
 import { useAuth } from "./hooks/auth.hook";
 import { useRoutes } from "./hooks/routes.hook";
-import { AuthContext } from "./context/authContext";
+import { AppContext } from "./context/context";
 import { useEffect, useReducer } from "react";
 import { initialState, noteReducer } from "./reducer/reducer";
 //import { storageName } from './constants/constants';
@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [state, dispatch] = useReducer(noteReducer, initialState)
   const isAuth = !!token
   const routes = useRoutes(isAuth)
+  console.log('inside app');
   
   useEffect(() => {
     // const checkExpiration = (): void => {
@@ -36,9 +37,9 @@ const App: React.FC = () => {
   }, [])
   
   return(
-    <AuthContext.Provider value={{login, logout, email, token, userId, isAuth, state, dispatch}}>
+    <AppContext.Provider value={{login, logout, email, token, userId, isAuth, state, dispatch}}>
       {routes}
-    </AuthContext.Provider>
+    </AppContext.Provider>
   )
 }
 

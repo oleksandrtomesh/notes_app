@@ -27,8 +27,7 @@ router.post('/', authMiddleware, async (req, res) => {
         const {title, body} = req.body
         const note = new Note({title, body, timeStamp, owner: req.user.userId})
         await note.save()
-        const notes = await Note.find({owner: req.user.userId})
-        res.status(201).json({message: 'Note added', newNotes: notes, addedNoteId: note._id})
+        res.status(201).json({message: 'Note added', newNote: note, addedNoteId: note._id})
 
     } catch(err){
         if(err){
